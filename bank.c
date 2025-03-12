@@ -124,19 +124,46 @@ if (temp1->money<money)
     printf("Transaction successful: %d transferred from %s to %s.\n", money, arr1, arr2);
 }
 
+void LoadAccountsFromFile() {
+  FILE *file = fopen("accounts.dat", "rb");
+  if (file == NULL) {
+      printf("No existing account data found.\n");
+      return;
+  }
+
+  char name[100]; 
+  int money;
+
+  while (fread(name, sizeof(name), 1, file) && fread(&money, sizeof(int), 1, file)) {
+      int index = hashFunction(name);
+
+      struct bank *newAccount = (struct bank *)malloc(sizeof(struct bank));
+      newAccount->name = strdup(name);  
+      newAccount->money = money;
+      newAccount->next = hashTable[index];  
+      hashTable[index] = newAccount;
+  }
+
+  fclose(file);
+  printf("Data loaded successfully!\n");
+}
+
 void SaveAccountsToFile() {
   FILE *file = fopen("accounts.dat", "wb");
   if (!file) {
       printf("Error saving accounts.\n");
       return;
   }
+
   for (int i = 0; i < TABLE_SIZE; i++) {
       struct bank *temp = hashTable[i];
       while (temp) {
-          fwrite(temp, sizeof(struct bank), 1, file);
+          fwrite(temp->name, sizeof(char), 100, file);  
+          fwrite(&temp->money, sizeof(int), 1, file);   
           temp = temp->next;
       }
   }
+
   fclose(file);
   printf("Accounts saved successfully!\n");
 }
@@ -239,6 +266,7 @@ void printMenu() {
 }
 
 int main() {
+  LoadAccountsFromFile();
     int choice;
     char name[100], receiver[100];
     int amount, threshold;
