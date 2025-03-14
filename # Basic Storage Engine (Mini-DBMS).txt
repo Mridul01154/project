@@ -1,0 +1,68 @@
+# Basic Storage Engine (Mini-DBMS)
+
+## Overview
+This project is a **basic database management system (DBMS)** designed to store and manage customer data using a file-based storage approach. It supports **transactions, indexing, and a simple SQL-like query processor**.
+
+## Features
+- **File-Based Storage**: Data is stored in binary files.
+- **Indexing**: A separate index file enables faster lookups.
+- **Transaction Management**: Supports commit and rollback operations.
+- **Query Processing**: Basic SQL-like commands (`INSERT`, `SELECT`, `UPDATE`, `DELETE`).
+- **Error Handling**: Handles basic invalid inputs and file errors.
+
+## Getting Started
+### Prerequisites
+- **C Compiler**: (GCC/Clang/MSVC)
+- **Make** (Optional, for build automation)
+
+### Compilation & Execution
+#### **Compile the program**
+```sh
+gcc main.c -o storage_engine
+```
+#### **Run the program**
+```sh
+./storage_engine
+```
+
+## Usage
+### Supported Commands
+```sql
+INSERT INTO customers (id, name, balance) VALUES (1, 'Alice', 5000);
+SELECT * FROM customers;
+UPDATE customers SET balance = 6000 WHERE id = 1;
+DELETE FROM customers WHERE id = 1;
+COMMIT;
+ROLLBACK;
+```
+
+## Project Structure
+```
+├── src
+│   ├── main.c        # Entry point of the program
+│   ├── db.c          # Database functions
+│   ├── index.c       # Indexing logic
+│   ├── transaction.c # Transaction handling
+│   ├── query.c       # Query parser
+│   └── utils.c       # Utility functions
+├── data
+│   ├── customers.dat # Binary storage file
+│   ├── index.dat     # Index file
+├── README.md         # Project documentation
+```
+
+## Future Improvements
+- **Concurrency Control**: Implement locking mechanisms.
+- **Advanced Indexing**: Use B-Trees or hash-based indexing.
+- **SQL Enhancements**: Support complex queries and joins.
+- **Crash Recovery**: Implement write-ahead logging (WAL).
+
+## License
+This project is open-source under the **MIT License**.
+
+## Contributing
+Feel free to submit **issues, pull requests, or suggestions** to improve the project!
+
+---
+Mridul
+
